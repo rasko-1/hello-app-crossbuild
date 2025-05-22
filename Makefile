@@ -2,6 +2,8 @@ PLATFORMS := linux_amd64 linux_arm64 darwin_amd64 darwin_arm64 windows_amd64
 FILENAME = main.go
 OUTPUT_DIR := build
 APPNAME := hello_app
+IMAGE_TAG := rasko1988/hello_app:v1.0.0
+
 
 format:
 	gofmt -s -w ./app
@@ -21,5 +23,8 @@ $(foreach platform,$(PLATFORMS),$(eval $(call build_template,$(platform))))
 all: $(PLATFORMS)
 
 clean:
-	rm -rf build
+	rm -rf $(OUTPUT_DIR)
+	docker rmi -f $(IMAGE_TAG) || true
 	
+image:
+	docker build -t $(IMAGE_TAG) .
