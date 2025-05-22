@@ -26,5 +26,5 @@ clean:
 	rm -rf $(OUTPUT_DIR)
 	docker rmi -f $(IMAGE_TAG) || true
 	
-build:
+image:
 	docker build -t $(IMAGE_TAG) .
