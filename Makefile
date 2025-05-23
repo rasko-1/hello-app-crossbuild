@@ -2,8 +2,8 @@ PLATFORMS := linux_amd64 linux_arm64 darwin_amd64 darwin_arm64 windows_amd64
 FILENAME = main.go
 OUTPUT_DIR := build
 APPNAME := hello_app
-IMAGE_TAG := rasko1988/hello_app:v1.0.0
-
+IMAGE_NAME := rasko1988/hello_app
+GIT_TAG := $(shell git tag --sort=-creatordate | head -n1 )
 
 format:
 	gofmt -s -w ./app
@@ -24,7 +24,7 @@ all: $(PLATFORMS)
 
 clean:
 	rm -rf $(OUTPUT_DIR)
-	docker rmi -f $(IMAGE_TAG) || true
+	docker rmi -f $(IMAGE_NAME):$(GIT_TAG) || true
 	
 image:
-	docker build -t $(IMAGE_TAG) .
+	docker build -t $(IMAGE_NAME):$(GIT_TAG) .
